@@ -120,7 +120,7 @@ async def eany_scraper():
     if not EMAIL or not PASSWORD:
         raise ValueError("Missing EMAIL or PASSWORD in .env")
 
-    login = EanyLogin(email=EMAIL, password=PASSWORD, headless=False)
+    login = EanyLogin(email=EMAIL, password=PASSWORD, headless=True)
     cookies = await login.login()
     if not cookies:
         raise RuntimeError("Login failed")
