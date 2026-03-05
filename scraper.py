@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 JSON_FILE = "products.json"
 STATE_FILE = "category_state.json"
-CONCURRENT_REQUESTS = 50
+CONCURRENT_REQUESTS = 100
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 
