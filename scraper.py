@@ -73,6 +73,7 @@ async def scrape_page(session, semaphore, url, page, existing_keys):
         for i in data:
             name = (i.get("name") or "").strip()
             gtin = (i.get("ean") or "").strip()
+            asin = (i.get("asin") or "").strip()
             stocks = i.get("stocks") or []
             price = stocks[0]["unit_price_net"] if stocks else None
 
@@ -81,11 +82,13 @@ async def scrape_page(session, semaphore, url, page, existing_keys):
                 continue
             if not (gtin.isdigit() and len(gtin) == 13):
                 gtin = None
-            if not gtin:
+            if len(asin) != 10:
+                asin = None
+            if not gtin or not asin:
                 skipped_invalid_id += 1
                 continue
 
-            unique_key = f"{gtin}"
+            unique_key = f"{gtin}_{asin}"
             if unique_key in existing_keys:
                 skipped_dup += 1
                 continue
@@ -98,6 +101,7 @@ async def scrape_page(session, semaphore, url, page, existing_keys):
                 "product_gtin": gtin,
                 "supplier_price": price,
                 "product_link": product_link,
+                "asin": asin
             })
 
         logger.info(
