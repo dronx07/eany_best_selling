@@ -1,0 +1,5 @@
+curl-cffi
+bs4
+python-dotenv
+lxml
+playwright
